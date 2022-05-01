@@ -1,7 +1,7 @@
 <template>
-  <div class="about">
+  <div >
     <h1>testime local storaget</h1>
-
+      {{userId}}
     <span>Valitud roll {{selected}}</span>
     <div>
       <select v-model="selected" >
@@ -22,7 +22,8 @@ export default {
   data: function () {
     return {
       options: {},
-      selected: ""
+      selected: "",
+      userId: sessionStorage.getItem('userId'),
     }
   },
   beforeMount() {
