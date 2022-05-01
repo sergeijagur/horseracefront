@@ -176,6 +176,7 @@ export default {
       ).then(response => {
         alert("New race added")
         this.raceId = response.data.id
+        sessionStorage.setItem('raceId', response.data.id)
         this.toMainView()
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
@@ -183,7 +184,7 @@ export default {
     },
     moveToRelevantPage: function () {
 
-      this.$router.push({name: 'GameRoute', query: { userId: this.userId}});
+      this.$router.push({name: 'GameRoute', query: { userId: this.userId, raceId: this.raceId}});
 
     }
 
