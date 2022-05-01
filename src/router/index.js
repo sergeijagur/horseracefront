@@ -2,24 +2,24 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "@/views/Login";
+import User from "@/views/User";
 import Customer from "@/views/Customer";
-import Admin from "@/views/Admin";
 
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        path: '/admin',
-        name: 'AdminRoute',
-        component: Admin
-    },
     {
         path: '/customer',
         name: 'CustomerRoute',
         component: Customer
     },
     {
-        path: '/login',
+        path: '/user',
+        name: 'UserRoute',
+        component: User
+    },
+    {
+        path: '/log-in',
         name: 'LoginRoute',
         component: Login
     },
