@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "@/views/Login";
-import Customer from "@/views/Customer";
 import Admin from "@/views/Admin";
+import User from "@/views/User";
 
 Vue.use(VueRouter)
 
@@ -14,12 +14,12 @@ const routes = [
         component: Admin
     },
     {
-        path: '/customer',
-        name: 'CustomerRoute',
-        component: Customer
+        path: '/user',
+        name: 'UserRoute',
+        component: User
     },
     {
-        path: '/login',
+        path: '/log-in',
         name: 'LoginRoute',
         component: Login
     },
