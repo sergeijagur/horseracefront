@@ -14,7 +14,7 @@
     <div v-if="mainDiv">
       <button v-on:click="toAddNewHorse" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
       <button v-on:click="toAddNewRace" type="button" class="btn btn-secondary btn-sm m-3">Create new race</button>
-      <button type="button" class="btn btn-secondary btn-sm m-3">Show all race results</button>
+      <button v-on:click="toRaceResults" type="button" class="btn btn-secondary btn-sm m-3">Show all race results</button>
       <br>
       <br>
       <button type="button" class="btn btn-success btn-lg">Play game</button>
@@ -25,19 +25,65 @@
       <input placeholder="Color" v-model="horseInfoRequest.color"><br>
       <br><br>
       <button v-on:click="addNewHorse" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
+      <br>
+      <button v-on:click="toMainView" type="button" class="btn btn-secondary btn-sm m-3" >Back</button>
     </div>
 
     <div v-if="addRaceDiv">
-      <input placeholder="Name" v-model="horseInfoRequest.name"><br><br>
-      <input placeholder="Color" v-model="horseInfoRequest.color"><br>
+      <input placeholder="Name" v-model="raceInfoRequest.name"><br><br>
+      <input placeholder="Place" v-model="raceInfoRequest.place"><br><br>
+      <input type="date" v-model="raceInfoRequest.date">
       <br><br>
-      <button v-on:click="addNewRace" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
+      <button v-on:click="addNewRace" type="button" class="btn btn-secondary btn-sm m-3" >Add new race</button>
+      <br>
+      <button v-on:click="toMainView" type="button" class="btn btn-secondary btn-sm m-3" >Back</button>
     </div>
 
+
+    <div v-if="resultButtonDiv" >
+      <button v-on:click="getRaceResults" type="button" class="btn btn-primary btn-lg">Show all result</button>
+      <br>
+      <br>
+      <br>
+    </div>
+    <div v-if="allRaceResultDiv" >
+        <table class="table table-hover">
+          <thead>
+          <tr >
+            <th scope="col">Race name</th>
+            <th scope="col">Race place</th>
+            <th scope="col">Race date</th>
+            <th scope="col">Winner</th>
+            <th scope="col">Second place</th>
+            <th scope="col">Third place</th>
+            <th scope="col"  ></th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr v-for="raceResult in raceResults" >
+            <td >{{ raceResult.raceName }}</td>
+            <td>{{ raceResult.racePlace}}</td>
+            <td>{{ raceResult.raceDate}}</td>
+            <td>{{ raceResult.winnerHorse }}</td>
+            <td>{{ raceResult.secondPlaceHorse }}</td>
+            <td>{{ raceResult.thirdPlaceHorse }}</td>
+
+<!--            <td><button v-on:click.once="horsesId.push(customer.id)" type="button" class="btn btn-secondary btn-lg">Lisa</button></td>-->
+            <!--          <td><button v-on:click ="horsesId.splice(horsesId.indexOf(customer), 1)" type="button" class="btn btn-secondary btn-lg">Eemalda</button></td>-->
+          </tr>
+          </tbody>
+        </table>
+
+<!--        <td><button v-on:click="saveDataToSessionStorage" type="button" class="btn btn-secondary btn-lg">edasta</button></td>-->
+
+        <br>
+        <br>
+      <button v-on:click="toMainView" type="button" class="btn btn-secondary btn-sm m-3" >Back</button>
+    </div>
+
+
   </div>
-
-
-
 
 </template>
 
@@ -53,12 +99,26 @@ export default {
       },
 
       raceInfoRequest: {
+        userId: sessionStorage.getItem('userId'),
+        name: '',
+        place: '',
+        date: '',
 
       },
       mainDiv: true,
       addHorseDiv: false,
       addRaceDiv: false,
+      allRaceResultDiv: false,
+      resultButtonDiv: false,
       horseId: 0,
+      winners: [],
+      secondPlaceId: 0,
+      thirdPlaceId: 0,
+      horseInfo: '',
+      raceId: 0,
+      race: {},
+      raceResult: {},
+      raceResults: {},
       userId: this.$route.query.userId,
       firstName: this.$route.query.firstName,
       lastName: this.$route.query.lastName
@@ -77,18 +137,36 @@ export default {
       this.addRaceDiv = true
     },
 
+    toRaceResults: function () {
+      this.mainDiv = false
+      this.allRaceResultDiv = true
+      this.resultButtonDiv = true
+    },
+
     toMainView: function () {
       this.mainDiv = true
       this.addHorseDiv = false
+      this.addRaceDiv = false
+      this.allRaceResultDiv = false
        },
+
+    getRaceResults: function () {
+      this.$http.get('/race-result/all')
+          .then(response => {
+            this.resultButtonDiv = false
+            this.raceResults = response.data
+            console.log(response.data)
+          })
+          .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
+    },
+
 
     addNewHorse: function () {
       this.$http.post("/horse/new-horse", this.horseInfoRequest
       ).then(response => {
+
         alert("New horse added")
         this.horseId = response.data.id
-        this.name = response.data.name
-        this.color = response.data.color
         this.toMainView()
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
@@ -96,21 +174,20 @@ export default {
     },
 
     addNewRace: function () {
-      this.$http.post("/horse/new-horse", this.horseInfoRequest
+      this.$http.post("/race/new-race", this.raceInfoRequest
       ).then(response => {
-        alert("New horse added")
-        this.horseId = response.data.id
-        this.name = response.data.name
-        this.color = response.data.color
+        alert("New race added")
+        this.raceId = response.data.id
         this.toMainView()
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
       })
     },
 
+ }
 
 
-    },
+
 
 }
 </script>
