@@ -25,14 +25,23 @@
       <input placeholder="Color" v-model="horseInfoRequest.color"><br>
       <br><br>
       <button v-on:click="addNewHorse" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
+      <br>
+      <button v-on:click="toMainView" type="button" class="btn btn-secondary btn-sm m-3" >Back</button>
     </div>
 
     <div v-if="addRaceDiv">
-      <input placeholder="Name" v-model="horseInfoRequest.name"><br><br>
-      <input placeholder="Color" v-model="horseInfoRequest.color"><br>
+      <input placeholder="Name" v-model="raceInfoRequest.name"><br><br>
+      <input placeholder="Place" v-model="raceInfoRequest.place"><br><br>
+      <input type="date" v-model="raceInfoRequest.date">
       <br><br>
-      <button v-on:click="addNewRace" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
+      <button v-on:click="addNewRace" type="button" class="btn btn-secondary btn-sm m-3" >Add new race</button>
+      <br>
+      <button v-on:click="toMainView" type="button" class="btn btn-secondary btn-sm m-3" >Back</button>
     </div>
+
+
+
+
 
   </div>
 
@@ -53,12 +62,17 @@ export default {
       },
 
       raceInfoRequest: {
+        userId: sessionStorage.getItem('userId'),
+        name: '',
+        place: '',
+        date: '',
 
       },
       mainDiv: true,
       addHorseDiv: false,
       addRaceDiv: false,
       horseId: 0,
+      raceId: 0,
       userId: this.$route.query.userId,
       firstName: this.$route.query.firstName,
       lastName: this.$route.query.lastName
@@ -80,6 +94,7 @@ export default {
     toMainView: function () {
       this.mainDiv = true
       this.addHorseDiv = false
+      this.addRaceDiv = false
        },
 
     addNewHorse: function () {
@@ -87,8 +102,6 @@ export default {
       ).then(response => {
         alert("New horse added")
         this.horseId = response.data.id
-        this.name = response.data.name
-        this.color = response.data.color
         this.toMainView()
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
@@ -96,12 +109,10 @@ export default {
     },
 
     addNewRace: function () {
-      this.$http.post("/horse/new-horse", this.horseInfoRequest
+      this.$http.post("/race/new-race", this.raceInfoRequest
       ).then(response => {
-        alert("New horse added")
-        this.horseId = response.data.id
-        this.name = response.data.name
-        this.color = response.data.color
+        alert("New race added")
+        this.raceId = response.data.id
         this.toMainView()
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
