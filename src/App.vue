@@ -5,7 +5,7 @@
       <router-link to="/log-in">Login</router-link> |
       <router-link to="/customer">Customer</router-link> |
       <router-link to="/user">User</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/game">Game</router-link>
     </div>
     <router-view/>
   </div>

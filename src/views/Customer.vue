@@ -17,7 +17,9 @@
       <button v-on:click="toRaceResults" type="button" class="btn btn-secondary btn-sm m-3">Show all race results</button>
       <br>
       <br>
-      <button type="button" class="btn btn-success btn-lg">Play game</button>
+      <div v-if="playButtonDiv">
+      <button v-on:click="moveToRelevantPage" type="button" class="btn btn-success btn-lg">Play game</button>
+      </div>
     </div>
 
     <div v-if="addHorseDiv">
@@ -110,14 +112,9 @@ export default {
       addRaceDiv: false,
       allRaceResultDiv: false,
       resultButtonDiv: false,
+      playButtonDiv: true,
       horseId: 0,
-      winners: [],
-      secondPlaceId: 0,
-      thirdPlaceId: 0,
-      horseInfo: '',
       raceId: 0,
-      race: {},
-      raceResult: {},
       raceResults: {},
       userId: this.$route.query.userId,
       firstName: this.$route.query.firstName,
@@ -148,6 +145,7 @@ export default {
       this.addHorseDiv = false
       this.addRaceDiv = false
       this.allRaceResultDiv = false
+      this.resultButtonDiv = false
        },
 
     getRaceResults: function () {
@@ -183,6 +181,11 @@ export default {
         alert(error.response.data.title + ". " + error.response.data.detail)
       })
     },
+    moveToRelevantPage: function () {
+
+      this.$router.push({name: 'GameRoute', query: { userId: this.userId}});
+
+    }
 
  }
 
