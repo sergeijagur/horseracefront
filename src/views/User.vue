@@ -4,7 +4,7 @@
   <input placeholder="First Name" v-model="userInfoRequest.firstName"><br>
   <input placeholder="Last Name" v-model="userInfoRequest.lastName"><br>
   <input placeholder="username" v-model="userInfoRequest.username"><br>
-  <input placeholder="password" v-model="userInfoRequest.password"><br>
+  <input placeholder="password" type="password" v-model="userInfoRequest.password"><br>
   </div>
   <br>
   <div >

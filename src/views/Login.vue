@@ -1,7 +1,7 @@
 <template>
   <div>
     <input placeholder="username" v-model="username"><br>
-    <input placeholder="password" v-model="password"><br>
+    <input placeholder="password" type="password" v-model="password"><br>
     <br>
     <br>
 
