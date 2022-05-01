@@ -47,7 +47,7 @@ export default {
     },
 
     moveToRelevantPage: function () {
-      this.$router.push({name: 'AdminRoute', query: {firstName: this.firstName,
+      this.$router.push({name: 'CustomerRoute', query: {firstName: this.firstName,
           lastName: this.lastName, userId: this.userId}});
     },
     },
