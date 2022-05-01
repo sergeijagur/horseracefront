@@ -6,7 +6,7 @@
     <br>
 
     <div v-if="displayLoginButton">
-      <button v-on:click="loginRequest">Log In</button>
+      <button v-on:click="loginRequest" >Log In</button>
     </div>
     <br>
     <div >
