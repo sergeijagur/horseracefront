@@ -68,10 +68,10 @@ export default {
   },
 
     selectRaceHorses: function () {
-      if (this.raceHorses.length === 6) {
+      if (this.raceHorses.length >= 6 && this.raceHorses.length <= 16) {
         this.horseTableDiv = false
       } else
-      alert('You can select only 6 horses')
+      alert('You can select minimum 6 and maximum 16 horses')
     },
 
 }
