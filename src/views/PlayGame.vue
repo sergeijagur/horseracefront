@@ -4,15 +4,17 @@
 
 
   <div >
-    <button v-on:click="getAllHorsesList" type="button" class="btn btn-primary btn-lg">Show all result</button>
-    <br>
-    <br>
+    <button v-on:click="getAllHorsesList" type="button" class="btn btn-primary btn-lg">Show all horses</button>
     <br>
 
-    {{raceHorses}}
+    <br>
+    <br>
+    <button v-on:click="selectRaceHorses" type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Select horses</button>
+
+
   </div>
 
-  <div >
+  <div v-if="horseTableDiv">
     <table class="table table-hover">
       <thead>
       <tr >
@@ -30,18 +32,10 @@
         <td>
           <input v-model="raceHorses" type="checkbox" name="" id="" v-bind:value="horse.id">
         </td>
-
-        <!--            <td><button v-on:click.once="horsesId.push(customer.id)" type="button" class="btn btn-secondary btn-lg">Lisa</button></td>-->
-        <!--          <td><button v-on:click ="horsesId.splice(horsesId.indexOf(customer), 1)" type="button" class="btn btn-secondary btn-lg">Eemalda</button></td>-->
       </tr>
       </tbody>
     </table>
 
-    <!--        <td><button v-on:click="saveDataToSessionStorage" type="button" class="btn btn-secondary btn-lg">edasta</button></td>-->
-
-    <br>
-    <br>
-    <button type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Back</button>
   </div>
 
   </div>
@@ -58,15 +52,12 @@ export default {
       raceHorses: [],
       selected: "",
       userId: sessionStorage.getItem('userId'),
+      horseTableDiv: true
 
     }
   },
 
   methods: {
-
-
-
-
   getAllHorsesList: function () {
     this.$http.get('/horse/all-horses')
         .then(response => {
@@ -76,6 +67,12 @@ export default {
         .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
   },
 
+    selectRaceHorses: function () {
+      if (this.raceHorses.length === 6) {
+        this.horseTableDiv = false
+      } else
+      alert('You can select only 6 horses')
+    },
 
 }
  }
