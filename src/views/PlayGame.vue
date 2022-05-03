@@ -31,15 +31,10 @@
       <button v-on:click="addNewHorse" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
     </div>
 
-    <div v-if="selectHorseButton">
-      <br>
-      <br>
-      <button v-on:click="selectRaceHorses" type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Select horses</button>
-    </div>
+
 
 <div v-if="horseTableDiv">
   <div >
-    {{raceHorses}}
 
     <button v-on:click="getAllHorsesList" type="button" class="btn btn-primary btn-lg">Show all horses</button>
     <br>
@@ -48,8 +43,15 @@
     <br>
     <br>
     <button v-on:click="toAddHorseView" type="button" class="btn btn-primary btn-lg">Add new horse</button>
-
   </div>
+
+  <div v-if="selectHorseButton">
+    <br>
+    <br>
+    <button v-on:click="selectRaceHorses" type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Select horses</button>
+  </div>
+
+
   <div>
     <table class="table table-hover">
       <thead>
@@ -74,9 +76,10 @@
 
     <div v-if="raceHorseTableDiv">
       <div >
-
+    {{bet}}
         <button v-on:click="toAddHorseView" type="button" class="btn btn-primary btn-lg">BET</button>
-
+        <br>
+        <br>
       </div>
       <div>
         <table class="table table-hover">
@@ -92,7 +95,7 @@
             <td>{{ horse.name }}</td>
             <td>{{ horse.color}}</td>
             <td>
-<!--              <input v-model="raceHorses" type="checkbox" name="" id="" v-bind:value="horse.id">-->
+              <input v-model="bet" type="radio" name="bet" v-bind:value="horse.id" >
             </td>
           </tr>
           </tbody>
@@ -124,6 +127,7 @@ export default {
         date: '',
       },
       horseList: {},
+      bet: 0,
       raceHorseList: {},
       raceHorses: [],
       selected: "",
@@ -172,18 +176,17 @@ export default {
         this.horseTableDiv = false
       this.$http.post("/horse/race-horses", raceHorseRequest
       ).then(response => {
-        alert("Horses added")
+        alert("Horses added to race")
         this.raceHorseList = response.data
-        console.log(response.data)
         this.horseTableDiv = false
         this.addHorseDiv = false
         this.raceHorseTableDiv = true
-
-
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
       })
     },
+
+
 
 
 
