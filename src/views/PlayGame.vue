@@ -25,7 +25,6 @@
       </tr>
       </thead>
       <tbody>
-
       <tr v-for="horse in horseList" >
         <td>{{ horse.name }}</td>
         <td>{{ horse.color}}</td>

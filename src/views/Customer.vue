@@ -7,6 +7,7 @@
 
     <img src="https://media.istockphoto.com/vectors/gallop-on-horses-vector-id514459091?k=20&m=514459091&s=612x612&w=0&h=E2NpsxemJtHeHd0qSKAhnPOSJWRSaNiCEUNj_uIEtc0=" alt="">
 
+
     <br>
     <br>
     <br>
@@ -183,9 +184,7 @@ export default {
       })
     },
     moveToRelevantPage: function () {
-
       this.$router.push({name: 'GameRoute', query: { userId: this.userId, raceId: this.raceId}});
-
     }
 
  }
