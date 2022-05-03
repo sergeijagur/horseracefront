@@ -6,7 +6,6 @@
       <div v-if="linkViewDiv">
       <router-link to="/log-in">Login</router-link> |
       <router-link to="/signup">Sign Up</router-link> |
-      <router-link to="/customer">ffffUp</router-link> |
     </div>
     </div>
     <router-view/>
