@@ -1,5 +1,16 @@
 <template>
   <div>
+    <div id="app">
+      <div id="nav">
+        | <router-link to="/">Home</router-link> |
+        <div v-if="linkViewDiv">
+          <router-link to="/log-in">Login</router-link> |
+          <router-link to="/signup">Sign Up</router-link> |
+          <router-link to="/customer">ffffUp</router-link> |
+        </div>
+        </div>
+      <router-view/>
+    </div>
     <div v-if="userAdditionalDiv">
       <button v-on:click="moveToRelevantPage" type="button" class="btn btn-primary btn-lg">Play the game</button>
     </div>
@@ -97,6 +108,7 @@ export default {
         userId: sessionStorage.getItem('userId'),
         name: '',
         color: '',
+        linkViewDiv: true
       },
 
       raceInfoRequest: {
@@ -186,11 +198,11 @@ export default {
       this.$router.push({name: 'GameRoute', query: { userId: this.userId, raceId: this.raceId}});
     },
 
-
   showUserView: function (userId) {
     userId = sessionStorage.getItem('userId')
     if (userId > 0) {
       this.userAdditionalDiv = true
+      this.linkViewDiv = false
     }
   },
 

@@ -1,5 +1,16 @@
 <template>
 <div>
+  <div id="app">
+    <div id="nav">
+      | <router-link to="/">Home</router-link> |
+      <div v-if="linkViewDiv">
+      <router-link to="/log-in">Login</router-link> |
+      <router-link to="/signup">Sign Up</router-link> |
+      <router-link to="/customer">ffffUp</router-link> |
+    </div>
+    </div>
+    <router-view/>
+  </div>
   <div v-if="userAdditionalDiv">
     <button v-on:click="moveToRelevantPage" type="button" class="btn btn-primary btn-lg">Play the game</button>
   </div>
@@ -40,8 +51,8 @@ export default {
      userId: '',
       firstName: '',
       lastName: '',
-      userAdditionalDiv: false
-      // userId: sessionStorage.getItem('userId')
+      userAdditionalDiv: false,
+      linkViewDiv: true
     }
   },
   methods: {
@@ -53,19 +64,22 @@ export default {
         this.firstName = response.data.firstName
         this.lastName = response.data.lastName
         sessionStorage.setItem('userId', response.data.id)
-        this.moveToRelevantPage()
+        this.moveToHomePage()
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
       })
     },
-
     moveToRelevantPage: function () {
       this.$router.push({name: 'GameRoute', });
+    },
+    moveToHomePage: function () {
+      this.$router.push({name: 'HomeRoute'})
     },
     showUserView: function (userId) {
       userId = sessionStorage.getItem('userId')
       if (userId > 0) {
         this.userAdditionalDiv = true
+        this.linkViewDiv = false
       }
     },
 
@@ -74,7 +88,28 @@ export default {
   this.showUserView()
     }
     }
-
-
 </script>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+
+</style>
 
