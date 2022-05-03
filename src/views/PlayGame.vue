@@ -11,16 +11,44 @@
         </div>
       <router-view/>
     </div>
+    <img src="https://t3.ftcdn.net/jpg/00/94/33/70/360_F_94337009_Ft8XuW2Xi0c1wH9izksukO5OZ14fXlIc.jpg" alt="">
+
+    <br>
+    <br>
+
+    <div v-if="addRaceDiv">
+      <input placeholder="Name" v-model="raceInfoRequest.name"><br><br>
+      <input placeholder="Place" v-model="raceInfoRequest.place"><br><br>
+      <input type="date" v-model="raceInfoRequest.date">
+      <br><br>
+      <button v-on:click="addNewRace" type="button" class="btn btn-secondary btn-sm m-3" >Add new race</button>
+    </div>
+
+    <div v-if="addHorseDiv">
+      <input placeholder="Name" v-model="horseInfoRequest.name"><br><br>
+      <input placeholder="Color" v-model="horseInfoRequest.color"><br>
+      <br><br>
+      <button v-on:click="addNewHorse" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
+    </div>
+
+    <div v-if="selectHorseButton">
+      <br>
+      <br>
+      <button v-on:click="selectRaceHorses" type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Select horses</button>
+    </div>
 
 <div v-if="horseTableDiv">
   <div >
+    {{raceHorses}}
+
     <button v-on:click="getAllHorsesList" type="button" class="btn btn-primary btn-lg">Show all horses</button>
     <br>
     <br>
     <button v-on:click="getUserHorsesList" type="button" class="btn btn-primary btn-lg">Show your horses</button>
     <br>
     <br>
-    <button v-on:click="selectRaceHorses" type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Select horses</button>
+    <button v-on:click="toAddHorseView" type="button" class="btn btn-primary btn-lg">Add new horse</button>
+
   </div>
   <div>
     <table class="table table-hover">
@@ -44,6 +72,34 @@
   </div>
 </div>
 
+    <div v-if="raceHorseTableDiv">
+      <div >
+
+        <button v-on:click="toAddHorseView" type="button" class="btn btn-primary btn-lg">BET</button>
+
+      </div>
+      <div>
+        <table class="table table-hover">
+          <thead>
+          <tr >
+            <th scope="col">Horse name</th>
+            <th scope="col">Horse color</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="horse in raceHorseList" >
+            <td>{{ horse.name }}</td>
+            <td>{{ horse.color}}</td>
+            <td>
+<!--              <input v-model="raceHorses" type="checkbox" name="" id="" v-bind:value="horse.id">-->
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
 
   </div>
 
@@ -55,11 +111,30 @@ export default {
   name: "About",
   data: function () {
     return {
+      horseInfoRequest: {
+        userId: sessionStorage.getItem('userId'),
+        name: '',
+        color: '',
+        linkViewDiv: true
+      },
+      raceInfoRequest: {
+        userId: sessionStorage.getItem('userId'),
+        name: '',
+        place: '',
+        date: '',
+      },
       horseList: {},
+      raceHorseList: {},
       raceHorses: [],
       selected: "",
+      horseId:0,
+      raceId:0,
       userId: sessionStorage.getItem('userId'),
-      horseTableDiv: true,
+      addRaceDiv: true,
+      addHorseDiv:false,
+      horseTableDiv: false,
+      selectHorseButton: false,
+      raceHorseTableDiv: false,
       linkViewDiv: true
     }
   },
@@ -69,12 +144,11 @@ export default {
     this.$http.get('/horse/all-horses')
         .then(response => {
           this.horseList = response.data
-          console.log(response.data)
+          this.selectHorseButton = true
         })
         .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
   },
     getUserHorsesList: function () {
-      let userId = this.userId;
       this.$http.get('/horse/user-id', {
         params: {
           userId : this.userId
@@ -82,17 +156,62 @@ export default {
       })
           .then(response => {
             this.horseList = response.data
-            console.log(userId)
-            console.log(response.data)
+            this.selectHorseButton = true
           })
           .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
     },
 
     selectRaceHorses: function () {
-      if (this.raceHorses.length >= 6 && this.raceHorses.length <= 16) {
-        this.horseTableDiv = false
+    let raceHorseRequest =
+       {raceHorses: this.raceHorses}
+      if (this.raceHorses.length < 6) {
+        alert("You have to select minimum six horses")
+      } else if (this.raceHorses.length > 16) {
+        alert("You can select maximum 16 horses")
       } else
-      alert('You can select minimum 6 and maximum 16 horses')
+        this.horseTableDiv = false
+      this.$http.post("/horse/race-horses", raceHorseRequest
+      ).then(response => {
+        alert("Horses added")
+        this.raceHorseList = response.data
+        console.log(response.data)
+        this.horseTableDiv = false
+        this.addHorseDiv = false
+        this.raceHorseTableDiv = true
+
+
+      }).catch(error => {
+        alert(error.response.data.title + ". " + error.response.data.detail)
+      })
+    },
+
+
+
+
+
+
+    addNewRace: function () {
+      this.$http.post("/race/new-race", this.raceInfoRequest
+      ).then(response => {
+        alert("New race added")
+        this.raceId = response.data.id
+        this.addRaceDiv = false
+        this.horseTableDiv = true
+        sessionStorage.setItem('raceId', response.data.id)
+      }).catch(error => {
+        alert(error.response.data.title + ". " + error.response.data.detail)
+      })
+    },
+    addNewHorse: function () {
+      this.$http.post("/horse/new-horse", this.horseInfoRequest
+      ).then(response => {
+        alert("New horse added")
+        this.horseId = response.data.id
+        this.horseTableDiv = true
+        this.addHorseDiv = false
+      }).catch(error => {
+        alert(error.response.data.title + ". " + error.response.data.detail)
+      })
     },
 
     showUserView: function (userId) {
@@ -101,6 +220,10 @@ export default {
         this.userAdditionalDiv = true
         this.linkViewDiv = false
       }
+    },
+    toAddHorseView: function () {
+      this.horseTableDiv = false
+      this.addHorseDiv = true
     },
   },
   mounted() {
