@@ -15,6 +15,9 @@
 
     <br>
     <br>
+    <div v-if="playAgainButton">
+      <button v-on:click="playAgain" type="button" class="btn btn-primary btn-lg">Play again</button>
+    </div>
 
     <div v-if="addRaceDiv">
       <input placeholder="Name" v-model="raceInfoRequest.name"><br><br>
@@ -76,8 +79,7 @@
 
     <div v-if="raceHorseTableDiv">
       <div >
-    {{bet}}
-        <button v-on:click="toAddHorseView" type="button" class="btn btn-primary btn-lg">BET</button>
+        <button v-on:click="putBetOnHorse" type="button" class="btn btn-primary btn-lg">BET</button>
         <br>
         <br>
       </div>
@@ -126,6 +128,7 @@ export default {
         place: '',
         date: '',
       },
+
       horseList: {},
       bet: 0,
       raceHorseList: {},
@@ -139,6 +142,7 @@ export default {
       horseTableDiv: false,
       selectHorseButton: false,
       raceHorseTableDiv: false,
+      playAgainButton: false,
       linkViewDiv: true
     }
   },
@@ -168,23 +172,81 @@ export default {
     selectRaceHorses: function () {
     let raceHorseRequest =
        {raceHorses: this.raceHorses}
-      if (this.raceHorses.length < 6) {
-        alert("You have to select minimum six horses")
-      } else if (this.raceHorses.length > 16) {
-        alert("You can select maximum 16 horses")
+      if (this.raceHorses.length >= 6 && this.raceHorses.length <= 16) {
+        this.horseTableDiv = false;
+        this.$http.post("/horse/race-horses", raceHorseRequest
+        ).then(response => {
+          alert("Horses added to race")
+          this.raceHorseList = response.data
+          this.horseTableDiv = false
+          this.addHorseDiv = false
+          this.raceHorseTableDiv = true
+        }).catch(error => {
+          alert(error.response.data.title + ". " + error.response.data.detail)
+        })
       } else
-        this.horseTableDiv = false
-      this.$http.post("/horse/race-horses", raceHorseRequest
+        alert("You have to select minimum six and maximum 16 horses")
+
+      // if (this.raceHorses.length < 6) {
+      //   alert("You have to select minimum six horses")
+      // } else if (this.raceHorses.length > 16) {
+      //   alert("You can select maximum 16 horses")
+      // } else
+      //   this.horseTableDiv = false;
+      // this.$http.post("/horse/race-horses", raceHorseRequest
+      // ).then(response => {
+      //   alert("Horses added to race")
+      //   this.raceHorseList = response.data
+      //   this.horseTableDiv = false
+      //   this.addHorseDiv = false
+      //   this.raceHorseTableDiv = true
+    //   }).catch(error => {
+    //     alert(error.response.data.title + ". " + error.response.data.detail)
+    //   })
+
+
+    },
+
+    putBetOnHorse: function () {
+    let raceAndBetRequest = {
+          raceId: sessionStorage.getItem('raceId'),
+          userId: sessionStorage.getItem('userId'),
+          betOnHorseId: this.bet,
+          raceHorses: this.raceHorses
+      }
+      this.$http.post("/horse-race/bet", raceAndBetRequest
       ).then(response => {
-        alert("Horses added to race")
-        this.raceHorseList = response.data
-        this.horseTableDiv = false
-        this.addHorseDiv = false
-        this.raceHorseTableDiv = true
+        if (response.data.win === true) {
+          alert("YOU WIN!!!")
+          this.playAgainButton = true
+          this.bet = 0
+          this.raceHorses = []
+
+        } else
+          alert("YOU LOSE!!!")
+          this.playAgainButton = true
+          this.bet = 0
+          this.raceHorses = []
+
+
+        // RESPONSE
+        // private String raceName;
+        // private String racePlace;
+        // private LocalDate raceDate;
+        // private Integer winnerHorse;
+        // private Integer secondPlaceHorse;
+        // private Integer thirdPlaceHorse;
+        // private Boolean win = false;
+
+        this.raceHorseTableDiv = false
+
+
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
       })
     },
+
+
 
 
 
@@ -215,6 +277,10 @@ export default {
       }).catch(error => {
         alert(error.response.data.title + ". " + error.response.data.detail)
       })
+    },
+    playAgain: function () {
+      this.playAgainButton = false
+      this.addRaceDiv = true
     },
 
     showUserView: function (userId) {
