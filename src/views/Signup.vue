@@ -1,9 +1,20 @@
 <template>
 <div>
+  <div v-if="userAdditionalDiv">
+    <button v-on:click="moveToRelevantPage" type="button" class="btn btn-primary btn-lg">Play the game</button>
+  </div>
+  <br>
+  <br>
   <div>
-  <input placeholder="First Name" v-model="userInfoRequest.firstName"><br>
-  <input placeholder="Last Name" v-model="userInfoRequest.lastName"><br>
-  <input placeholder="username" v-model="userInfoRequest.username"><br>
+  <input placeholder="First Name" v-model="userInfoRequest.firstName">
+    <br>
+    <br>
+  <input placeholder="Last Name" v-model="userInfoRequest.lastName">
+    <br>
+    <br>
+  <input placeholder="username" v-model="userInfoRequest.username">
+    <br>
+    <br>
   <input placeholder="password" type="password" v-model="userInfoRequest.password"><br>
   </div>
   <br>
@@ -28,7 +39,9 @@ export default {
      },
      userId: '',
       firstName: '',
-      lastName: ''
+      lastName: '',
+      userAdditionalDiv: false
+      // userId: sessionStorage.getItem('userId')
     }
   },
   methods: {
@@ -47,14 +60,21 @@ export default {
     },
 
     moveToRelevantPage: function () {
-      this.$router.push({name: 'CustomerRoute', query: {firstName: this.firstName,
-          lastName: this.lastName, userId: this.userId}});
+      this.$router.push({name: 'GameRoute', });
     },
+    showUserView: function (userId) {
+      userId = sessionStorage.getItem('userId')
+      if (userId > 0) {
+        this.userAdditionalDiv = true
+      }
     },
 
-}
+    },
+  mounted() {
+  this.showUserView()
+    }
+    }
+
+
 </script>
 
-<style scoped>
-
-</style>

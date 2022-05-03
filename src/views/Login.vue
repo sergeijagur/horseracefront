@@ -1,6 +1,14 @@
 <template>
   <div>
-    <input placeholder="username" v-model="username"><br>
+    <div v-if="userAdditionalDiv">
+      <button v-on:click="moveToRelevantPage" type="button" class="btn btn-primary btn-lg">Play the game</button>
+    </div>
+    <br>
+    <br>
+
+    <input placeholder="username" v-model="username">
+    <br>
+    <br>
     <input placeholder="password" type="password" v-model="password"><br>
     <br>
     <br>
@@ -26,15 +34,16 @@ export default {
     return {
       username: "",
       password: "",
-      userId: 0,
+      userId: sessionStorage.getItem('userId'),
       firstName: "",
       lastName: "",
       displayLoginButton: true,
-      displaySignUpButton: true
+      displaySignUpButton: true,
+      userAdditionalDiv: false
     }
   },
   methods: {
-    // loginRequest back endi vastu
+
      loginRequest: function () {
       this.$http.get("/log-in", {
             params: {
@@ -47,6 +56,7 @@ export default {
         this.userId = response.data.id
         this.firstName = response.data.firstName
         this.lastName = response.data.lastName
+        sessionStorage.setItem('userId', response.data.id)
         alert("Welcome " + response.data.firstName + " " + response.data.lastName)
         sessionStorage.setItem('userId', response.data.id)
         this.moveToRelevantPage()
@@ -58,20 +68,49 @@ export default {
     },
 
     signUpRequest: function () {
-       this.$router.push({name: 'UserRoute'})
+       this.$router.push({name: 'SignupRoute'})
     },
     moveToRelevantPage: function () {
+      this.$router.push({name: 'GameRoute', });
+    },
 
-      this.$router.push({name: 'CustomerRoute', query: {firstName: this.firstName,
-          lastName: this.lastName, userId: this.userId}});
-
+    showUserView: function (userId) {
+      userId = sessionStorage.getItem('userId')
+      if (userId > 0) {
+        this.userAdditionalDiv = true
       }
     },
 
+  },
+  mounted() {
+    this.showUserView()
+  }
+
 }
+
+
 </script>
 
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 
-<style scoped>
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
 
 </style>

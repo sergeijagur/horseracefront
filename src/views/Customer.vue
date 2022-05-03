@@ -1,17 +1,15 @@
 <template>
   <div>
-<!--    <h1>Siia tuleb admin lehekülg</h1>-->
-<!--    <h3>Eesnimi </h3> <span>{{firstName}}</span>-->
-<!--    <h3>Perekonna nimi </h3> <span>{{lastName}}</span>-->
-<!--    <h3>ID </h3> <span>{{userId}}</span>-->
+    <div v-if="userAdditionalDiv">
+      <button v-on:click="moveToRelevantPage" type="button" class="btn btn-primary btn-lg">Play the game</button>
+    </div>
+    <br>
+    <br>
 
     <img src="https://media.istockphoto.com/vectors/gallop-on-horses-vector-id514459091?k=20&m=514459091&s=612x612&w=0&h=E2NpsxemJtHeHd0qSKAhnPOSJWRSaNiCEUNj_uIEtc0=" alt="">
-
-
     <br>
     <br>
     <br>
-
     <div v-if="mainDiv">
       <button v-on:click="toAddNewHorse" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
       <button v-on:click="toAddNewRace" type="button" class="btn btn-secondary btn-sm m-3">Create new race</button>
@@ -113,6 +111,7 @@ export default {
       addRaceDiv: false,
       allRaceResultDiv: false,
       resultButtonDiv: false,
+      userAdditionalDiv: false,
       playButtonDiv: true,
       horseId: 0,
       raceId: 0,
@@ -185,13 +184,20 @@ export default {
     },
     moveToRelevantPage: function () {
       this.$router.push({name: 'GameRoute', query: { userId: this.userId, raceId: this.raceId}});
+    },
+
+
+  showUserView: function (userId) {
+    userId = sessionStorage.getItem('userId')
+    if (userId > 0) {
+      this.userAdditionalDiv = true
     }
+  },
 
- }
-
-
-
-
+},
+mounted() {
+  this.showUserView()
+}
 }
 </script>
 

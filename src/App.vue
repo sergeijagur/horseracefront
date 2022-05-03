@@ -4,8 +4,6 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/log-in">Login</router-link> |
       <router-link to="/signup">Sign Up</router-link> |
-<!--      <router-link to="/game">Game</router-link>-->
-<!--      <router-link to="/customer">Customer</router-link> |-->
     </div>
     <router-view/>
   </div>
@@ -31,25 +29,6 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
-
-table{
-  margin-left: auto;
-  margin-right: auto;
-}
-
-td {
-  padding: 7px;
-  border-bottom: solid;
-  border-width: 1px;
-  border-color: lightgray;
-}
-
-th {
-  padding: 10px;
-  border-bottom: solid;
-  border-width: 1px;
-  border-color: lightgray;
 }
 
 </style>

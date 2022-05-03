@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div v-if="userAdditionalDiv">
+      <button v-on:click="moveToRelevantPage" type="button" class="btn btn-primary btn-lg">Play the game</button>
+    </div>
+    <br>
+    <br>
     <img src="https://t4.ftcdn.net/jpg/00/79/71/07/360_F_79710743_BoORxIHT4mNHhmeldg8mk1JtlklRFteH.jpg" alt="">
    <br>
    <br>
@@ -73,18 +78,16 @@ export default {
   data: function () {
 
     return {
-
+      userId: sessionStorage.getItem('userId'),
       mainViewDiv: true,
       horseTableDiv: false,
       allRaceResultDiv: false,
+      userAdditionalDiv: false,
       horseList: []
-
     }
-
   },
 
   methods: {
-
     moveToLoginPage: function () {
       this.$router.push({name: 'LoginRoute'});
     },
@@ -106,6 +109,9 @@ export default {
           })
           .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
     },
+    moveToRelevantPage: function () {
+      this.$router.push({name: 'GameRoute', });
+    },
     getAllHorsesList: function () {
       this.$http.get('/horse/all-horses')
           .then(response => {
@@ -115,17 +121,19 @@ export default {
             console.log(response.data)
           })
           .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
-    }
+    },
+    showUserView: function (userId) {
+      userId = sessionStorage.getItem('userId')
+      if (userId > 0) {
+        this.userAdditionalDiv = true
+      }
+    },
 
+  },
+  mounted() {
+    this.showUserView()
   }
-
 }
-
-
-
-
-
-
-
 </script>
+
 
