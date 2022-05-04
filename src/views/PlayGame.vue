@@ -87,7 +87,7 @@
     <button v-on:click="selectRaceHorses" type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Add selected horses to race</button>
   </div>
   <div>
-    <table class="table table-hover">
+    <table class="table table-hover" style="width:auto" align="center" >
       <thead>
       <tr >
         <th scope="col">Horse name</th>
@@ -115,7 +115,7 @@
         <br>
       </div>
       <div>
-        <table class="table table-hover">
+        <table class="table table-hover" style="width: auto" align="center">
           <thead>
           <tr >
             <th scope="col">Horse name</th>
@@ -170,7 +170,7 @@ export default {
       addHorseDiv:false,
       horseTableDiv: true,
       selectHorseButton: false,
-      raceHorseTableDiv: false,
+      raceHorseTableDiv: true,
       playAgainButton: false,
       linkViewDiv: true
     }
