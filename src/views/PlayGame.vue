@@ -3,6 +3,9 @@
     <div id="app">
       <div id="nav">
         | <router-link to="/">Home</router-link> |
+        <div v-if="signOutDiv">
+          <a href="#" v-on:click="signOut" style="float: right" class="badge badge-light">Sign Out</a>
+        </div>
         <div v-if="linkViewDiv">
           <router-link to="/log-in">Login</router-link> |
           <router-link to="/signup">Sign Up</router-link> |
@@ -16,7 +19,7 @@
     <br>
     <br>
     <div v-if="playAgainButton">
-      <button v-on:click="playAgain" type="button" class="btn btn-success btn-lg">Play again</button>
+      <button v-on:click="playAgain" type="button" style="" class="btn btn-success btn-lg">Play again</button>
       <br>
     </div>
     <div v-if="addRaceDiv">
@@ -241,6 +244,7 @@ export default {
       horseTableDiv: false,
       selectHorseButton: false,
       horseButtonsDiv: false,
+      signOutDiv: true,
       raceHorseTableDiv: false,
       playAgainButton: false,
       betButtonDiv: false,
@@ -377,6 +381,14 @@ export default {
       this.horseTableDiv = false
       this.addHorseDiv = true
     },
+    moveToMainPage: function () {
+      this.$router.push({name: 'HomeRoute', });
+    },
+    signOut: function () {
+      sessionStorage.clear()
+      this.moveToMainPage()
+      window.location.reload()
+    }
   },
   mounted() {
     this.showUserView()

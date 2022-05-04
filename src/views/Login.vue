@@ -3,6 +3,8 @@
     <div id="app">
       <div id="nav">
         | <router-link to="/">Home</router-link> |
+        <div v-if="signOutDiv">
+          <a href="#" v-on:click="signOut" style="float: right" class="badge badge-light">Sign Out</a></div>
         <div v-if="linkViewDiv">
           <router-link to="/log-in">Login</router-link> |
           <router-link to="/signup">Sign Up</router-link> |
@@ -61,6 +63,7 @@ export default {
       lastName: "",
       displayLoginButton: true,
       displaySignUpButton: true,
+      signOutDiv: false,
       userAdditionalDiv: false,
       linkViewDiv: true
     }
@@ -99,6 +102,10 @@ export default {
         this.linkViewDiv = false
       }
     },
+    signOut: function () {
+      sessionStorage.clear()
+      window.location.reload()
+    }
   },
   mounted() {
     this.showUserView()

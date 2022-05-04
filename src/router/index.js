@@ -2,19 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "@/views/Login";
-import User from "@/views/Signup";
-import Customer from "@/views/Customer";
 import PlayGame from "@/views/PlayGame";
 import signup from "@/views/Signup";
 
 Vue.use(VueRouter)
 
 const routes = [
-    // {
-    //     path: '/customer',
-    //     name: 'CustomerRoute',
-    //     component: Customer
-    // },
     {
         path: '/signup',
         name: 'SignupRoute',
