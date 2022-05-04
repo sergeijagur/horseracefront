@@ -71,8 +71,7 @@ export default {
             params: {
               username: this.username,
               password: this.password
-            }
-          }
+            }}
       ).then(response => {
         this.userId = response.data.id
         this.firstName = response.data.firstName
@@ -81,8 +80,7 @@ export default {
         alert("Welcome " + response.data.firstName + " " + response.data.lastName)
         this.moveToHomePage()
       }).catch(error =>
-      {
-        alert(error.response.data.title + ". " + error.response.data.detail)
+      {alert(error.response.data.title + ". " + error.response.data.detail)
       })
     },
     signUpRequest: function () {

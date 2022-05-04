@@ -22,12 +22,16 @@
     <img src="https://t4.ftcdn.net/jpg/00/79/71/07/360_F_79710743_BoORxIHT4mNHhmeldg8mk1JtlklRFteH.jpg" alt="">
     </div>
     <div v-if="mainViewDiv">
-    <button v-on:click="getRaceResults" type="button" class="btn btn-info btn-lg m-3">Show previous race results</button>
-    <button v-on:click="getAllHorsesList" type="button" class="btn btn-info btn-lg m-3">Show all registered horses</button>
+    <button v-on:click="getRaceResults" type="button" class="btn btn-info btn-lg m-3">Show all race results</button>
+    <button v-on:click="getAllHorsesList" type="button" class="btn btn-info btn-lg m-3">Show all horses</button>
     <div v-if="loginButtonsDiv">
       <button v-on:click="moveToLoginPage" type="button" class="btn btn-secondary btn-lg m-3">Login</button>
       <button v-on:click="moveToSignUpPage" type="button" class="btn btn-secondary btn-lg m-3">Sign Up</button>
     </div>
+      <div v-if="userButtonDiv">
+        <button v-on:click="getUserRaceResults" type="button" class="btn btn-warning btn-lg m-3">Show your race results</button>
+        <button v-on:click="getUserHorsesList" type="button" class="btn btn-warning btn-lg m-3">Show your horses</button>
+      </div>
     </div>
     <div v-if="horseTableDiv">
       <button v-on:click="toMainView" type="button" class="btn btn-light">Back</button>
@@ -89,6 +93,7 @@ export default {
       horseTableDiv: false,
       allRaceResultDiv: false,
       userAdditionalDiv: false,
+      userButtonDiv: false,
       linkViewDiv: true,
       loginButtonsDiv: true,
       horseList: []
@@ -112,25 +117,50 @@ export default {
             this.allRaceResultDiv = true
             this.mainViewDiv = false
             this.raceResults = response.data
-          })
-          .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
+          }).catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
+    },
+    getUserRaceResults: function () {
+      this.$http.get('/race-result/user-id',{
+        params: {
+          userId : sessionStorage.getItem('userId')
+        }
+      }).then(response => {
+            this.allRaceResultDiv = true
+            this.mainViewDiv = false
+            this.raceResults = response.data
+          }).catch(error => alert("You don't have any race results"))
     },
     moveToRelevantPage: function () {
       this.$router.push({name: 'GameRoute', });
     },
     getAllHorsesList: function () {
-      this.$http.get('/horse/all-horses')
+      this.$http.get('/horse/all-horses',{
+        params: {
+          userId : sessionStorage.getItem('userId')
+        }
+      }).then(response => {
+            this.mainViewDiv = false
+            this.horseTableDiv = true
+            this.horseList = response.data
+          }).catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
+    },
+    getUserHorsesList: function () {
+      this.$http.get('/horse/user-id',{
+        params: {
+          userId : sessionStorage.getItem('userId')
+        }
+      })
           .then(response => {
             this.mainViewDiv = false
             this.horseTableDiv = true
             this.horseList = response.data
-          })
-          .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
+          }).catch(error => alert("You don't have any horses"))
     },
     showUserView: function (userId) {
       userId = sessionStorage.getItem('userId')
       if (userId > 0) {
         this.userAdditionalDiv = true
+        this.userButtonDiv = true
         this.linkViewDiv = false
         this.loginButtonsDiv = false
       }
