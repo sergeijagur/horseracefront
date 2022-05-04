@@ -76,7 +76,7 @@
       <button v-on:click="addNewHorse" type="button" class="btn btn-dark btn-lg m-3" >Create new horse</button>
     </div>
 <div v-if="horseTableDiv">
-  <h2>Ad horses to race</h2>
+  <h2>Add horses to race</h2>
   <div >
     <button v-on:click="getAllHorsesList" type="button" class="btn btn-dark btn-lg m-3">Show all horses</button>
     <button v-on:click="getUserHorsesList" type="button" class="btn btn-dark btn-lg m-3">Show your horses</button>
@@ -168,7 +168,7 @@ export default {
       userId: sessionStorage.getItem('userId'),
       addRaceDiv: true,
       addHorseDiv:false,
-      horseTableDiv: false,
+      horseTableDiv: true,
       selectHorseButton: false,
       raceHorseTableDiv: false,
       playAgainButton: false,
@@ -234,7 +234,6 @@ export default {
 
 
     },
-
     putBetOnHorse: function () {
     let raceAndBetRequest = {
           raceId: sessionStorage.getItem('raceId'),
@@ -249,6 +248,7 @@ export default {
           this.playAgainButton = true
           this.bet = 0
           this.raceHorses = []
+
 
         } else
           alert("YOU LOSE!!!")
@@ -273,14 +273,6 @@ export default {
         alert(error.response.data.title + ". " + error.response.data.detail)
       })
     },
-
-
-
-
-
-
-
-
 
 
     addNewRace: function () {
@@ -310,7 +302,6 @@ export default {
       this.playAgainButton = false
       this.addRaceDiv = true
     },
-
     showUserView: function (userId) {
       userId = sessionStorage.getItem('userId')
       if (userId > 0) {
@@ -336,18 +327,14 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
 </style>
