@@ -11,24 +11,21 @@
       <router-view/>
     </div>
     <div v-if="userAdditionalDiv">
-      <button v-on:click="moveToRelevantPage" type="button" class="btn btn-primary btn-lg">Play the game</button>
+      <button v-on:click="moveToRelevantPage" type="button" class="btn btn-success btn-lg">Play the game</button>
+      <br>
+      <br>
     </div>
-    <br>
-    <br>
-    <img src="https://t4.ftcdn.net/jpg/00/79/71/07/360_F_79710743_BoORxIHT4mNHhmeldg8mk1JtlklRFteH.jpg" alt="">
-   <br>
-   <br>
-
     <div v-if="mainViewDiv">
-    <h1>Welcome to Horse Racing Online Game</h1>
-    <br>
-    <br>
-    <button v-on:click="getRaceResults" type="button" class="btn btn-success btn-lg m-3">Show previous race results</button>
-    <button v-on:click="getAllHorsesList" type="button" class="btn btn-primary btn-lg m-3">Show all registered horses</button>
-    <br>
-    <br>
-    <button v-on:click="moveToLoginPage" type="button" class="btn btn-warning btn-lg m-3">Login</button>
-    <button v-on:click="moveToSignUpPage" type="button" class="btn btn-info btn-lg m-3">Sign Up</button>
+      <h1>Welcome to Horse Racing Online Game</h1>
+    </div>
+    <img src="https://t4.ftcdn.net/jpg/00/79/71/07/360_F_79710743_BoORxIHT4mNHhmeldg8mk1JtlklRFteH.jpg" alt="">
+    <div v-if="mainViewDiv">
+    <button v-on:click="getRaceResults" type="button" class="btn btn-info btn-lg m-3">Show previous race results</button>
+    <button v-on:click="getAllHorsesList" type="button" class="btn btn-info btn-lg m-3">Show all registered horses</button>
+    <div v-if="loginButtonsDiv">
+      <button v-on:click="moveToLoginPage" type="button" class="btn btn-secondary btn-lg m-3">Login</button>
+      <button v-on:click="moveToSignUpPage" type="button" class="btn btn-secondary btn-lg m-3">Sign Up</button>
+    </div>
     </div>
     <div v-if="horseTableDiv">
       <button v-on:click="toMainView" type="button" class="btn btn-light">Back</button>
@@ -81,12 +78,9 @@
 </template>
 
 <script>
-
 export default {
   name: 'Home',
-
   data: function () {
-
     return {
       userId: sessionStorage.getItem('userId'),
       mainViewDiv: true,
@@ -94,10 +88,10 @@ export default {
       allRaceResultDiv: false,
       userAdditionalDiv: false,
       linkViewDiv: true,
+      loginButtonsDiv: true,
       horseList: []
     }
   },
-
   methods: {
     moveToLoginPage: function () {
       this.$router.push({name: 'LoginRoute'});
@@ -116,7 +110,6 @@ export default {
             this.allRaceResultDiv = true
             this.mainViewDiv = false
             this.raceResults = response.data
-            console.log(response.data)
           })
           .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
     },
@@ -129,7 +122,6 @@ export default {
             this.mainViewDiv = false
             this.horseTableDiv = true
             this.horseList = response.data
-            console.log(response.data)
           })
           .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
     },
@@ -138,9 +130,9 @@ export default {
       if (userId > 0) {
         this.userAdditionalDiv = true
         this.linkViewDiv = false
+        this.loginButtonsDiv = false
       }
     },
-
   },
   mounted() {
     this.showUserView()
@@ -155,20 +147,16 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
 </style>
 
 

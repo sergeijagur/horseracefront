@@ -10,11 +10,11 @@ import signup from "@/views/Signup";
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        path: '/customer',
-        name: 'CustomerRoute',
-        component: Customer
-    },
+    // {
+    //     path: '/customer',
+    //     name: 'CustomerRoute',
+    //     component: Customer
+    // },
     {
         path: '/signup',
         name: 'SignupRoute',

@@ -10,50 +10,82 @@
         </div>
       <router-view/>
     </div>
-    <img src="https://t3.ftcdn.net/jpg/00/94/33/70/360_F_94337009_Ft8XuW2Xi0c1wH9izksukO5OZ14fXlIc.jpg" alt="">
-
+    <img src="https://media.istockphoto.com/vectors/gallop-on-horses-vector-id514459091?k=20&m=514459091&s=612x612&w=0&h=E2NpsxemJtHeHd0qSKAhnPOSJWRSaNiCEUNj_uIEtc0=" alt="">
     <br>
     <br>
     <div v-if="playAgainButton">
-      <button v-on:click="playAgain" type="button" class="btn btn-primary btn-lg">Play again</button>
+      <button v-on:click="playAgain" type="button" class="btn btn-success btn-lg">Play again</button>
     </div>
 
     <div v-if="addRaceDiv">
-      <input placeholder="Name" v-model="raceInfoRequest.name"><br><br>
-      <input placeholder="Place" v-model="raceInfoRequest.place"><br><br>
-      <input type="date" v-model="raceInfoRequest.date">
-      <br><br>
-      <button v-on:click="addNewRace" type="button" class="btn btn-secondary btn-sm m-3" >Add new race</button>
+      <div>
+        <h2>Add race details</h2>
+        <div class="d-inline-flex p-2">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text">Race name</label>
+            </div>
+            <input type="text" v-model="raceInfoRequest.name">
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="d-inline-flex p-2">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text">Race place</label>
+            </div>
+            <input type="text" v-model="raceInfoRequest.place">
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="d-inline-flex p-2">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text">Race date</label>
+            </div>
+            <input type="date" v-model="raceInfoRequest.date">
+          </div>
+        </div>
+      </div>
+      <button v-on:click="addNewRace" type="button" class="btn btn-dark btn-lg m-3" >Add new race</button>
     </div>
-
     <div v-if="addHorseDiv">
-      <input placeholder="Name" v-model="horseInfoRequest.name"><br><br>
-      <input placeholder="Color" v-model="horseInfoRequest.color"><br>
-      <br><br>
-      <button v-on:click="addNewHorse" type="button" class="btn btn-secondary btn-sm m-3" >Add new horse</button>
+      <div>
+        <h2>Add your horse details</h2>
+        <div class="d-inline-flex p-2">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text">Horse name</label>
+            </div>
+            <input type="text" v-model="horseInfoRequest.name">
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="d-inline-flex p-2">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text">Horse color</label>
+            </div>
+            <input type="text" v-model="horseInfoRequest.color">
+          </div>
+        </div>
+      </div>
+      <button v-on:click="addNewHorse" type="button" class="btn btn-dark btn-lg m-3" >Create new horse</button>
     </div>
-
-
-
 <div v-if="horseTableDiv">
+  <h2>Ad horses to race</h2>
   <div >
-
-    <button v-on:click="getAllHorsesList" type="button" class="btn btn-primary btn-lg">Show all horses</button>
-    <br>
-    <br>
-    <button v-on:click="getUserHorsesList" type="button" class="btn btn-primary btn-lg">Show your horses</button>
-    <br>
-    <br>
-    <button v-on:click="toAddHorseView" type="button" class="btn btn-primary btn-lg">Add new horse</button>
+    <button v-on:click="getAllHorsesList" type="button" class="btn btn-dark btn-lg m-3">Show all horses</button>
+    <button v-on:click="getUserHorsesList" type="button" class="btn btn-dark btn-lg m-3">Show your horses</button>
+    <button v-on:click="toAddHorseView" type="button" class="btn btn-dark btn-lg m-3">Add new horse</button>
   </div>
-
   <div v-if="selectHorseButton">
     <br>
-    <br>
-    <button v-on:click="selectRaceHorses" type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Select horses</button>
+    <button v-on:click="selectRaceHorses" type="button" name="btn" class="btn btn-secondary btn-sm m-3" >Add selected horses to race</button>
   </div>
-
-
   <div>
     <table class="table table-hover">
       <thead>
@@ -75,10 +107,10 @@
     </table>
   </div>
 </div>
-
     <div v-if="raceHorseTableDiv">
+      <h2>Bet on horse</h2>
       <div >
-        <button v-on:click="putBetOnHorse" type="button" class="btn btn-primary btn-lg">BET</button>
+        <button v-on:click="putBetOnHorse" type="button" class="btn btn-success btn-lg">PLAY!</button>
         <br>
         <br>
       </div>
@@ -88,7 +120,7 @@
           <tr >
             <th scope="col">Horse name</th>
             <th scope="col">Horse color</th>
-            <th scope="col"></th>
+            <th scope="col">Your bet</th>
           </tr>
           </thead>
           <tbody>
@@ -103,8 +135,6 @@
         </table>
       </div>
     </div>
-
-
   </div>
 
 </template>
@@ -167,7 +197,6 @@ export default {
           })
           .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
     },
-
     selectRaceHorses: function () {
     let raceHorseRequest =
        {raceHorses: this.raceHorses}

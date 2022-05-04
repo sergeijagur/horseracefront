@@ -11,34 +11,63 @@
     <router-view/>
   </div>
   <div v-if="userAdditionalDiv">
-    <button v-on:click="moveToRelevantPage" type="button" class="btn btn-primary btn-lg">Play the game</button>
+    <button v-on:click="moveToRelevantPage" type="button" class="btn btn-success btn-lg">Play the game</button>
+    <br>
+    <br>
   </div>
   <br>
-  <br>
   <div>
-  <input placeholder="First Name" v-model="userInfoRequest.firstName">
-    <br>
-    <br>
-  <input placeholder="Last Name" v-model="userInfoRequest.lastName">
-    <br>
-    <br>
-  <input placeholder="username" v-model="userInfoRequest.username">
-    <br>
-    <br>
-  <input placeholder="password" type="password" v-model="userInfoRequest.password"><br>
+    <div class="d-inline-flex p-2">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text">First name</label>
+        </div>
+        <input type="text" v-model="userInfoRequest.firstName">
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="d-inline-flex p-2">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text">Last name</label>
+        </div>
+        <input type="text" v-model="userInfoRequest.lastName">
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="d-inline-flex p-2">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text">Username</label>
+        </div>
+        <input type="text" v-model="userInfoRequest.username">
+      </div>
+    </div>
+  </div>
+  <div>
+    <div>
+      <div class="d-inline-flex p-2">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text">Password</label>
+          </div>
+          <input type="password" v-model="userInfoRequest.password">
+        </div>
+      </div>
+    </div>
   </div>
   <br>
   <div >
-    <button v-on:click="addNewUser">Sign Up</button>
+    <button v-on:click="addNewUser" type="button" class="btn btn-secondary">Sign Up</button>
   </div>
-
 </div>
 </template>
 
 <script>
 export default {
   name: "User",
-
   data: function() {
     return {
       userInfoRequest: {
@@ -81,7 +110,6 @@ export default {
         this.linkViewDiv = false
       }
     },
-
     },
   mounted() {
   this.showUserView()
@@ -96,19 +124,15 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
 </style>
 
