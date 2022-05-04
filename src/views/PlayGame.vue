@@ -10,7 +10,9 @@
         </div>
       <router-view/>
     </div>
+    <div v-if="imageDiv">
     <img src="https://media.istockphoto.com/vectors/gallop-on-horses-vector-id514459091?k=20&m=514459091&s=612x612&w=0&h=E2NpsxemJtHeHd0qSKAhnPOSJWRSaNiCEUNj_uIEtc0=" alt="">
+    </div>
     <br>
     <br>
     <div v-if="playAgainButton">
@@ -77,10 +79,13 @@
     </div>
 <div v-if="horseTableDiv">
   <h2>Add horses to race</h2>
+  <br>
   <div >
     <button v-on:click="getAllHorsesList" type="button" class="btn btn-dark btn-lg m-3">Show all horses</button>
     <button v-on:click="getUserHorsesList" type="button" class="btn btn-dark btn-lg m-3">Show your horses</button>
     <button v-on:click="toAddHorseView" type="button" class="btn btn-dark btn-lg m-3">Add new horse</button>
+    <br>
+    <br>
   </div>
   <div v-if="selectHorseButton">
     <br>
@@ -115,7 +120,7 @@
         <br>
       </div>
       <div>
-        <table class="table table-hover" style="width: auto" align="center">
+        <table class="table table-hover table-dark"  style="width: auto" align="center">
           <thead>
           <tr >
             <th scope="col">Horse name</th>
@@ -130,6 +135,66 @@
             <td>
               <input v-model="bet" type="radio" name="bet" v-bind:value="horse.id" >
             </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div v-if="winDiv">
+      <img src="https://media.istockphoto.com/vectors/you-win-message-comic-speech-bubble-effects-in-pop-art-style-vector-id1249638308?k=20&m=1249638308&s=612x612&w=0&h=nbnbaXuZxOrzlaGi6OwMw7TZ6NXOuvxj00XtpcoHg04=" alt="">
+      <div>
+        <h2>Race result</h2>
+        <br>
+        <table class="table table-hover" style="width: auto" align="center">
+          <thead>
+          <tr >
+            <th scope="col">Race name</th>
+            <th scope="col">Race place</th>
+            <th scope="col">Race date</th>
+            <th scope="col">Winner</th>
+            <th scope="col">Second place</th>
+            <th scope="col">Third place</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{ result.raceName }}</td>
+            <td>{{ result.racePlace}}</td>
+            <td>{{ result.raceDate}}</td>
+            <td>{{ result.winnerHorse }}</td>
+            <td>{{ result.secondPlaceHorse }}</td>
+            <td>{{ result.thirdPlaceHorse }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div v-if="loseDiv">
+      <img src="https://t3.ftcdn.net/jpg/01/15/89/20/360_F_115892005_HMEE0k02qxE2PMgSoEuulFNokLEvP7kW.jpg" alt="">
+      <div>
+        <h2>Race result</h2>
+        <br>
+        <table class="table table-hover" style="width: auto" align="center">
+          <thead>
+          <tr >
+            <th scope="col">Race name</th>
+            <th scope="col">Race place</th>
+            <th scope="col">Race date</th>
+            <th scope="col">Winner</th>
+            <th scope="col">Second place</th>
+            <th scope="col">Third place</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{ result.raceName }}</td>
+            <td>{{ result.racePlace}}</td>
+            <td>{{ result.raceDate}}</td>
+            <td>{{ result.winnerHorse }}</td>
+            <td>{{ result.secondPlaceHorse }}</td>
+            <td>{{ result.thirdPlaceHorse }}</td>
           </tr>
           </tbody>
         </table>
@@ -159,19 +224,29 @@ export default {
       },
 
       horseList: {},
+      result: {},
       bet: 0,
       raceHorseList: {},
       raceHorses: [],
+      winnerHorses: [],
       selected: "",
+      raceName: "",
+      racePlace: "",
       horseId:0,
       raceId:0,
+      winnerId: 0,
+      secondPlaceId: 0,
+      thirdPlaceId: 0,
       userId: sessionStorage.getItem('userId'),
       addRaceDiv: true,
       addHorseDiv:false,
-      horseTableDiv: true,
+      horseTableDiv: false,
       selectHorseButton: false,
-      raceHorseTableDiv: true,
+      raceHorseTableDiv: false,
       playAgainButton: false,
+      winDiv: false,
+      loseDiv: false,
+      imageDiv: true,
       linkViewDiv: true
     }
   },
@@ -188,7 +263,7 @@ export default {
     getUserHorsesList: function () {
       this.$http.get('/horse/user-id', {
         params: {
-          userId : this.userId
+          userId : sessionStorage.getItem('userId')
         }
       })
           .then(response => {
@@ -213,7 +288,7 @@ export default {
           alert(error.response.data.title + ". " + error.response.data.detail)
         })
       } else
-        alert("You have to select minimum six and maximum 16 horses")
+        alert("You can select minimum 6 and maximum 16 horses")
 
       // if (this.raceHorses.length < 6) {
       //   alert("You have to select minimum six horses")
@@ -244,29 +319,25 @@ export default {
       this.$http.post("/horse-race/bet", raceAndBetRequest
       ).then(response => {
         if (response.data.win === true) {
-          alert("YOU WIN!!!")
           this.playAgainButton = true
+          this.imageDiv = false
+          this.loseDiv = false
+          this.winDiv = true
+          this.raceHorseTableDiv = false
           this.bet = 0
           this.raceHorses = []
+          this.getRaceResult()
 
 
         } else
-          alert("YOU LOSE!!!")
           this.playAgainButton = true
+          this.imageDiv = false
+          this.loseDiv = false
+          this.loseDiv = true
+          this.raceHorseTableDiv = false
           this.bet = 0
           this.raceHorses = []
-
-
-        // RESPONSE
-        // private String raceName;
-        // private String racePlace;
-        // private LocalDate raceDate;
-        // private Integer winnerHorse;
-        // private Integer secondPlaceHorse;
-        // private Integer thirdPlaceHorse;
-        // private Boolean win = false;
-
-        this.raceHorseTableDiv = false
+        this.getRaceResult()
 
 
       }).catch(error => {
@@ -274,6 +345,16 @@ export default {
       })
     },
 
+    getRaceResult: function () {
+      this.$http.get('/race-result/id', {
+        params: {
+          raceId : sessionStorage.getItem('raceId')
+        }
+      }).then(response => {
+        this.result = response.data
+      })
+          .catch(error => alert(error.response.data.title + ". " + error.response.data.detail))
+    },
 
     addNewRace: function () {
       this.$http.post("/race/new-race", this.raceInfoRequest
@@ -300,6 +381,8 @@ export default {
     },
     playAgain: function () {
       this.playAgainButton = false
+      this.loseDiv = false
+      this.winDiv = false
       this.addRaceDiv = true
     },
     showUserView: function (userId) {
@@ -310,6 +393,7 @@ export default {
       }
     },
     toAddHorseView: function () {
+      this.addRaceDiv = false
       this.horseTableDiv = false
       this.addHorseDiv = true
     },

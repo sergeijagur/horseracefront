@@ -18,7 +18,9 @@
     <div v-if="mainViewDiv">
       <h1>Welcome to Horse Racing Online Game</h1>
     </div>
+    <div>
     <img src="https://t4.ftcdn.net/jpg/00/79/71/07/360_F_79710743_BoORxIHT4mNHhmeldg8mk1JtlklRFteH.jpg" alt="">
+    </div>
     <div v-if="mainViewDiv">
     <button v-on:click="getRaceResults" type="button" class="btn btn-info btn-lg m-3">Show previous race results</button>
     <button v-on:click="getAllHorsesList" type="button" class="btn btn-info btn-lg m-3">Show all registered horses</button>
@@ -31,7 +33,7 @@
       <button v-on:click="toMainView" type="button" class="btn btn-light">Back</button>
       <br>
       <br>
-      <table class="table table-hover">
+      <table class="table table-hover" style="width: auto" align="center">
         <thead>
         <tr >
           <th scope="col">Horse name</th>
@@ -50,7 +52,7 @@
       <button v-on:click="toMainView" type="button" class="btn btn-light">Back</button>
       <br>
       <br>
-      <table class="table table-hover">
+      <table class="table table-hover" style="width: auto" align="center">
         <thead>
         <tr >
           <th scope="col">Race name</th>
