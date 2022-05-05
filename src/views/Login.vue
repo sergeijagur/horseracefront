@@ -40,11 +40,11 @@
     </div>
     <br>
     <div v-if="displayLoginButton">
-      <button v-on:click="loginRequest" type="button" class="btn btn-secondary">Log In</button>
+      <button v-on:click="loginRequest" type="button"  style="width: 110px" class="btn btn-secondary">Log In</button>
     </div>
     <br>
     <div >
-      <button v-on:click="signUpRequest" type="button" class="btn btn-secondary">Sign Up</button>
+      <button v-on:click="signUpRequest" type="button"  style="width: 110px" class="btn btn-secondary">Sign Up</button>
     </div>
   </div>
 

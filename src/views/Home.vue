@@ -24,15 +24,15 @@
     <img src="https://t4.ftcdn.net/jpg/00/79/71/07/360_F_79710743_BoORxIHT4mNHhmeldg8mk1JtlklRFteH.jpg" alt="">
     </div>
     <div v-if="mainViewDiv">
-    <button v-on:click="getRaceResults" type="button" class="btn btn-info btn-lg m-3">Show all race results</button>
-    <button v-on:click="getAllHorsesList" type="button" class="btn btn-info btn-lg m-3">Show all horses</button>
-    <div v-if="loginButtonsDiv">
-      <button v-on:click="moveToLoginPage" type="button" class="btn btn-secondary btn-lg m-3">Login</button>
-      <button v-on:click="moveToSignUpPage" type="button" class="btn btn-secondary btn-lg m-3">Sign Up</button>
-    </div>
+    <button v-on:click="getRaceResults" type="button" style="width: 240px" class="btn btn-info btn-lg m-3">Show all race results</button>
+    <button v-on:click="getAllHorsesList" type="button" style="width: 240px" class="btn btn-info btn-lg m-3">Show all horses</button>
+<!--    <div v-if="loginButtonsDiv">-->
+<!--      <button v-on:click="moveToLoginPage" type="button" style="width: 130px" class="btn btn-secondary btn-lg m-3">Login</button>-->
+<!--      <button v-on:click="moveToSignUpPage" type="button" style="width: 130px"  class="btn btn-secondary btn-lg m-3">Sign Up</button>-->
+<!--    </div>-->
       <div v-if="userButtonDiv">
-        <button v-on:click="getUserRaceResults" type="button" class="btn btn-warning btn-lg m-3">Show your race results</button>
-        <button v-on:click="getUserHorsesList" type="button" class="btn btn-warning btn-lg m-3">Show your horses</button>
+        <button v-on:click="getUserRaceResults" type="button"  style="width: 240px" class="btn btn-warning btn-lg m-3">Show your race results</button>
+        <button v-on:click="getUserHorsesList" type="button"  style="width: 240px" class="btn btn-warning btn-lg m-3">Show your horses</button>
       </div>
     </div>
     <div v-if="horseTableDiv">

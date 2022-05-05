@@ -85,9 +85,9 @@
   <h2>Add horses to race</h2>
   <br>
   <div >
-    <button v-on:click="getAllHorsesList" type="button" class="btn btn-dark btn-lg m-3">Show all horses</button>
-    <button v-on:click="getUserHorsesList" type="button" class="btn btn-dark btn-lg m-3">Show your horses</button>
-    <button v-on:click="toAddHorseView" type="button" class="btn btn-dark btn-lg m-3">Add new horse</button>
+    <button v-on:click="getAllHorsesList" type="button"  style="width: 180px" class="btn btn-dark btn-lg m-3">Show all horses</button>
+    <button v-on:click="getUserHorsesList" type="button"  style="width: 180px" class="btn btn-dark btn-lg m-3">Show your horses</button>
+    <button v-on:click="toAddHorseView" type="button"  style="width: 180px" class="btn btn-dark btn-lg m-3">Add new horse</button>
     <br>
   </div>
   </div>
