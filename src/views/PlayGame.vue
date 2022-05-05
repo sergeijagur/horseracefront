@@ -30,7 +30,7 @@
             <div class="input-group-prepend">
               <label class="input-group-text">Race name</label>
             </div>
-            <input type="text" v-model="raceInfoRequest.name">
+            <input type="text" style="width: 180px" v-model="raceInfoRequest.name">
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@
             <div class="input-group-prepend">
               <label class="input-group-text">Race place</label>
             </div>
-            <input type="text" v-model="raceInfoRequest.place">
+            <input type="text" style="width: 180px" v-model="raceInfoRequest.place">
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
             <div class="input-group-prepend">
               <label class="input-group-text">Race date</label>
             </div>
-            <input type="date" v-model="raceInfoRequest.date">
+            <input type="date" style="width: 180px" v-model="raceInfoRequest.date">
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@
             <div class="input-group-prepend">
               <label class="input-group-text">Horse name</label>
             </div>
-            <input type="text" v-model="horseInfoRequest.name">
+            <input type="text" style="width: 180px" v-model="horseInfoRequest.name">
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
             <div class="input-group-prepend">
               <label class="input-group-text">Horse color</label>
             </div>
-            <input type="text" v-model="horseInfoRequest.color">
+            <input type="text" style="width: 180px" v-model="horseInfoRequest.color">
           </div>
         </div>
       </div>
@@ -85,9 +85,9 @@
   <h2>Add horses to race</h2>
   <br>
   <div >
-    <button v-on:click="getAllHorsesList" type="button"  style="width: 180px" class="btn btn-dark btn-lg m-3">Show all horses</button>
-    <button v-on:click="getUserHorsesList" type="button"  style="width: 180px" class="btn btn-dark btn-lg m-3">Show your horses</button>
-    <button v-on:click="toAddHorseView" type="button"  style="width: 180px" class="btn btn-dark btn-lg m-3">Add new horse</button>
+    <button v-on:click="getAllHorsesList" type="button"  style="width: 190px" class="btn btn-dark btn-lg m-3">Show all horses</button>
+    <button v-on:click="getUserHorsesList" type="button"  style="width: 190px" class="btn btn-dark btn-lg m-3">Show your horses</button>
+    <button v-on:click="toAddHorseView" type="button"  style="width: 190px" class="btn btn-dark btn-lg m-3">Add new horse</button>
     <br>
   </div>
   </div>
